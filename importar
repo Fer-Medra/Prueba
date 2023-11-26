@@ -1,0 +1,59 @@
+#------------------------------------------------
+#Importación con python a base de datos Postgress en elephantsql
+#------------------------------------------------
+#pip install pydataxm matplotlib psycopg2 pandas sqlalchemy            #Se instalan para poder usar la importación
+import pandas as pd
+import psycopg2
+from sqlalchemy import create_engine
+
+# Parámetros de conexión a la base de datos
+dbname = "fjvewjpk"
+user = "fjvewjpk"
+password = "ep3OZahSCxhyF_DJh2CEoWVc9brQaZzT"
+host = "hansken.db.elephantsql.com"
+# port = "tu_puerto"
+
+from pydataxm import *
+import datetime as dt
+objetoAPI = pydataxm.ReadDB()
+df_VoluUtilDiarEner = objetoAPI.request_data(
+                      "VoluUtilDiarEner",
+                      "Embalse",
+                      dt.date(2023, 11, 1),
+                      dt.date(2023, 11, 23))
+
+df_PrecBolsNaci = objetoAPI.request_data(
+                      "PrecBolsNaci",
+                      "Sistema",
+                      dt.date(2023, 11, 1),
+                      dt.date(2023, 11, 23))
+
+df_DemaComeReg = objetoAPI.request_data(
+                      "DemaComeReg",
+                      "Agente",
+                      dt.date(2023, 11, 1),
+                      dt.date(2023, 11, 23))
+
+df_DemaComeNoReg = objetoAPI.request_data(
+                      "DemaComeNoReg",
+                      "Agente",
+                      dt.date(2023, 11, 1),
+                      dt.date(2023, 11, 23))
+
+df_DemaOR = objetoAPI.request_data(
+                      "DemaOR",
+                      "Agente",
+                      dt.date(2023, 11, 1),
+                      dt.date(2023, 11, 23))
+
+# Conectar a la base de datos usando SQLAlchemy y crear la tabla
+engine = create_engine(f"postgresql://{user}:{password}@{host}/{dbname}") #:{port}/{dbname}")
+df_VoluUtilDiarEner.to_sql('VoluUtilDiarEner', engine, index=False, if_exists='replace')
+df_PrecBolsNaci.to_sql('PrecBolsNaci', engine, index=False, if_exists='replace')
+df_DemaComeReg.to_sql('DemaComeReg', engine, index=False, if_exists='replace')
+df_DemaComeNoReg.to_sql('DemaComeNoReg', engine, index=False, if_exists='replace')
+df_DemaOR.to_sql('DemaOR', engine, index=False, if_exists='replace')
+
+
+# Confirmar la creación de la tabla
+print("Tabla creada exitosamente.")
