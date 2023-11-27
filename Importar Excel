@@ -1,3 +1,6 @@
+#--------------------------------------------
+#--------------------------------------------
+#pip install openpyxl matplotlib psycopg2 pandas sqlalchemy 
 import pandas as pd
 import psycopg2
 from sqlalchemy import create_engine
@@ -12,7 +15,10 @@ host = "hansken.db.elephantsql.com"
 ruta_archivo_excel = r'C:\Tempo\Anexo Prueba Punto 2.xlsx' # Ruta del archivo Excel
 
 todas_las_hojas = pd.read_excel(ruta_archivo_excel, sheet_name=None)
-df_ExcelConcatenado = pd.concat(todas_las_hojas.values(), ignore_index=True)
+df_ExcelConcatenado = pd.concat(
+    [df.assign(hoja=hoja) for hoja, df in todas_las_hojas.items()],
+    ignore_index=True
+)
 
 # Conectar a la base de datos usando SQLAlchemy y crear la tabla
 engine = create_engine(f"postgresql://{user}:{password}@{host}/{dbname}") #:{port}/{dbname}")
