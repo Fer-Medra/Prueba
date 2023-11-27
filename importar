@@ -1,5 +1,5 @@
 #------------------------------------------------
-#Importación con python a base de datos Postgress en elephantsql
+#Importación con python desde Api de XM a base de datos Postgress en elephantsql
 #------------------------------------------------
 #pip install pydataxm matplotlib psycopg2 pandas sqlalchemy            #Se instalan para poder usar la importación
 import pandas as pd
