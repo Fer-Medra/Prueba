@@ -1,4 +1,5 @@
 #--------------------------------------------
+#Importación con python desde Excel a base de datos Postgress en elephantsql
 #--------------------------------------------
 #pip install openpyxl matplotlib psycopg2 pandas sqlalchemy 
 import pandas as pd
