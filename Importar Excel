@@ -1,0 +1,22 @@
+import pandas as pd
+import psycopg2
+from sqlalchemy import create_engine
+
+# Parámetros de conexión a la base de datos
+dbname = "fjvewjpk"
+user = "fjvewjpk"
+password = "ep3OZahSCxhyF_DJh2CEoWVc9brQaZzT"
+host = "hansken.db.elephantsql.com"
+# port = "tu_puerto"
+
+ruta_archivo_excel = r'C:\Tempo\Anexo Prueba Punto 2.xlsx' # Ruta del archivo Excel
+
+todas_las_hojas = pd.read_excel(ruta_archivo_excel, sheet_name=None)
+df_ExcelConcatenado = pd.concat(todas_las_hojas.values(), ignore_index=True)
+
+# Conectar a la base de datos usando SQLAlchemy y crear la tabla
+engine = create_engine(f"postgresql://{user}:{password}@{host}/{dbname}") #:{port}/{dbname}")
+df_ExcelConcatenado.to_sql('ExcelConcatenado', engine, index=False, if_exists='replace')
+
+# Confirmar la creación de la tabla
+print("Tabla creada exitosamente.")
